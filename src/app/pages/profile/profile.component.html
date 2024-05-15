@@ -1,0 +1,32 @@
+
+<app-auth-head
+  title="My Account"
+/>
+
+<div class="container  my_account">
+ <div class="left">
+    <ul class="side-menu">
+      <li routerLink="/profile/orders" routerLinkActive="active">
+        <div>
+          <div class="side-manu__icon">
+            <img src="assets/icons/Cart.svg">
+          </div>
+        </div>
+        <div class="side-manu__name">Orders</div>
+      </li>
+      <li routerLink="/profile/wishlist" routerLinkActive="active">
+        <div class="side-manu__icon">
+          <img src="assets/icons/Heart.svg">
+        </div>
+        <div class="side-manu__name">Wishlist</div>
+      </li>
+      <li>
+        <div>Logout</div>
+      </li>
+    </ul>
+ </div>
+ <div class="right">
+   <router-outlet/>
+ </div>
+
+</div>

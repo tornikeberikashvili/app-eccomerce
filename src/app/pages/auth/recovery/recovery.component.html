@@ -1,0 +1,49 @@
+<app-auth-head
+  title="Password Recovery"
+/>
+
+<div class="auth-container">
+
+  @if(errorMessage){
+    <app-alert
+      type="error"
+      [message]="errorMessage"
+    />
+  }
+  @if(successMessage){
+    <app-alert
+      type="success"
+      [message]="successMessage"
+    />
+  }
+
+  <div class="auth-description">
+    Please enter the email address associated with your account. We'll promptly send you a link to reset your password.
+  </div>
+
+  <form [formGroup]="form">
+    <app-input
+      formControlName="email"
+      type="email"
+      label="Email"
+      placeholder="Enter your email"
+    />
+
+
+
+    <div class="auth-actions">
+
+      <button
+        app-button
+        block
+        (click)="sendLink()"
+
+      >
+        Send reset link
+      </button>
+
+    </div>
+  </form>
+
+
+</div>
