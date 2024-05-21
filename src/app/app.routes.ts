@@ -17,7 +17,7 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/auth/auth.routes').then(m => m.authRoutes)
       },
       {
-        path: 'category',
+        path: 'category/:id',
         component: CategoriesComponent
       },
       {

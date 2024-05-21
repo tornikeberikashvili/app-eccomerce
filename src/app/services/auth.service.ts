@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ApiService} from "../core/services";
 import {environment} from "../../environments/environment";
 import {AuthPayload, AuthResponse} from "../core/interfaces";
@@ -9,12 +9,12 @@ import {User} from "../core/interfaces";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService  extends ApiService{
+export class AuthService extends ApiService {
 
   override apiUrl = environment.firebaseAuthUrl;
   apiKey = environment.firebaseApiKey;
 
-  register(params: AuthPayload):Observable<AuthResponse> {
+  register(params: AuthPayload): Observable<AuthResponse> {
     return this.post<AuthResponse>(`accounts:signUp?key=${this.apiKey}`, params)
   }
 
@@ -24,7 +24,8 @@ export class AuthService  extends ApiService{
       returnSecureToken: true
     })
   }
-  sendOobCode(email: string){
+
+  sendOobCode(email: string) {
     return this.post(`accounts:sendOobCode?key=${this.apiKey}`, {
       requestType: 'PASSWORD_RESET',
       email
@@ -38,12 +39,19 @@ export class AuthService  extends ApiService{
     })
   }
 
-  lookup(idToken: string){
+  lookup(idToken: string) {
     return this.post<{
-      users:User[]
+      users: User[]
     }>(`accounts:lookup?key=${this.apiKey}`, {
       idToken
     })
   }
 
+  changePassword(idToken: string, password: string) {
+    return this.post<AuthResponse>(`accounts:update?key=${this.apiKey}`, {
+      idToken,
+      password,
+      returnSecureToken: true
+    })
+  }
 }

@@ -87,4 +87,18 @@ storageService = inject(StorageService)
       )
   }
 
+  changePassword(password: string){
+    return this.authService.changePassword(this.token, password)
+      .pipe(
+        tap(res =>{
+          this.storageService.setItem('token', res.idToken)
+          this.storageService.setItem('refreshToken', res.refreshToken)
+          this.storageService.setItem('user', {
+            email: res.email,
+            id: res.localId
+          })
+        })
+      )
+  }
+
 }
