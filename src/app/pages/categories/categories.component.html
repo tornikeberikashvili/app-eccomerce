@@ -1,1 +1,64 @@
-<p>categories works!</p>
+<app-breadcrumb/>
+
+<div class="container category">
+  <div class="category__side">
+    <div class="category__side--filter">
+
+      <app-filter-card name="Categories">
+        <div class="flex-column">
+          @for(category of categories$ |async;track category.id){
+            <app-filter-card-checkbox-item
+              [label]="category.name"
+            />
+          }
+        </div>
+
+      </app-filter-card>
+
+      <app-filter-card name="Color">
+        <div class="flex-row filter-color-content">
+          @for(color of colors$ |async;track color.id){
+            <app-color-item
+              [color]="color.name"
+              active
+
+            />
+
+          }
+        </div>
+
+
+      </app-filter-card>
+
+      <app-filter-card name="Size">
+        <div class="flex-row filter-color-content">
+          @for(size of sizes ;track size){
+           <div class="size">
+             {{size}}
+           </div>
+
+          }
+        </div>
+
+
+      </app-filter-card>
+
+
+    </div>
+  </div>
+ <div class="category--content">
+   <div class="active-filters"></div>
+   <div class="products-info"></div>
+   <div class="products">
+
+     @for(product of products$ |async;track product.id){
+        <app-product-item
+          [product]="product"
+        />
+     }
+
+
+
+   </div>
+ </div>
+</div>

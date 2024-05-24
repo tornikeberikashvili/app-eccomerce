@@ -4,6 +4,7 @@
 @import "spacing";
 @import "shadows";
 
+
 @import "component/component";
 
 body,html{
@@ -47,4 +48,16 @@ body,html{
     color: var(--neutral-black-b900);
 
   }
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row{
+  display: flex;
+  align-items: center;
+
+
 }
