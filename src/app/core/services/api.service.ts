@@ -16,10 +16,10 @@ export class ApiService{
   http:HttpClient = inject(HttpClient)
 
 
-  get<T>(path: string, params?: HttpParams):Observable<T> {
+  get<T>(path: string, params?: any):Observable<T> {
 
     const httpParams = new HttpParams({
-      fromObject:params as any
+      fromObject:params
     })
 
     return this.http.get<T>(`${this.apiUrl}/${path}`, {

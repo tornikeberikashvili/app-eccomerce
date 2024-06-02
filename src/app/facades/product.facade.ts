@@ -10,8 +10,8 @@ import {Product} from "../core/interfaces/product";
 export class ProductFacade {
   productService=inject(ProductService)
 
-  getProducts(){
-    return this.productService.getProducts()
+  getProducts(categoryId: string){
+    return this.productService.getProducts(categoryId)
       .pipe(
         map((products) => {
           return Object.keys(products).map((key: any) => ({

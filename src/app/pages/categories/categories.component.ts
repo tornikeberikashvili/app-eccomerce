@@ -13,6 +13,8 @@ import {ColorItemComponent} from "../../components/color-item/color-item.compone
 import {Size, SIZES,} from "../../core/types/size.type";
 import {ProductItemComponent} from "../../components/product-item/product-item.component";
 import {ProductFacade} from "../../facades/product.facade";
+import {map, switchMap} from "rxjs";
+import {param} from "jquery";
 
 @Component({
   selector: 'app-categories',
@@ -43,11 +45,24 @@ export class CategoriesComponent implements OnInit{
 
     sizes=SIZES
 
-  products$ = this.productFacade.getProducts()
+  products$ = this.route.params.pipe(
+    switchMap(params => this.productFacade.getProducts(params['id'])),
+  )
+
+
+
+
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      console.log(params) // {id: "42"}
-    });
+    // this.route.params.subscribe(params => {
+    //   console.log(params)
+    //   this.productFacade.getProducts(params['id'])
+    //     .subscribe(products => {
+    //       console.log(products)
+    //     })
+    // })
+
+
+
   }
 }

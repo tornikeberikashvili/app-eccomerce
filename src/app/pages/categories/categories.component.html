@@ -49,16 +49,20 @@
  <div class="category--content">
    <div class="active-filters"></div>
    <div class="products-info"></div>
-   <div class="products">
-
-     @for(product of products$ |async;track product.id){
-        <app-product-item
-          [product]="product"
-        />
-     }
-
-
+   @if((products$ |async);as products){
+     <div class="products">
+       @for(product of (products$ |async)|| [] ;track product.id){
+         <app-product-item
+           [product]="product"
+         />
+       }
 
    </div>
+     @if(products.length === 0){
+       <div class="no-products">
+         No products found
+       </div>
+     }
+   }
  </div>
 </div>
