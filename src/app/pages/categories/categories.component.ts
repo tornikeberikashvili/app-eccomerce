@@ -13,8 +13,11 @@ import {ColorItemComponent} from "../../components/color-item/color-item.compone
 import {Size, SIZES,} from "../../core/types/size.type";
 import {ProductItemComponent} from "../../components/product-item/product-item.component";
 import {ProductFacade} from "../../facades/product.facade";
-import {map, switchMap} from "rxjs";
-import {param} from "jquery";
+
+import { switchMap} from "rxjs";
+
+
+
 
 @Component({
   selector: 'app-categories',
@@ -44,6 +47,7 @@ export class CategoriesComponent implements OnInit{
   colors$ = this.colorFacade.getColors()
 
     sizes=SIZES
+
 
   products$ = this.route.params.pipe(
     switchMap(params => this.productFacade.getProducts(params['id'])),
