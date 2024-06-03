@@ -11,18 +11,8 @@ import {tap} from "rxjs";
 export class ProductService extends ApiService {
 
 
-  getProducts(categoryId: string) {
-    return this.get<FirebaseDocument<Product>[]>('products.json',{
-
-      orderBy: '"categoryId"',
-      equalTo:  `"${categoryId}"`
-
-
-    }).pipe(
-      tap(products => {
-        console.log(products)
-      }
-    ))
+  getProducts() {
+    return this.get<FirebaseDocument<Product>[]>('products.json')
     }
 
 

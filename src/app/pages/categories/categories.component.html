@@ -3,12 +3,12 @@
 <div class="container category">
   <div class="category__side">
     <div class="category__side--filter">
-
       <app-filter-card name="Categories">
         <div class="flex-column">
           @for(category of categories$ |async;track category.id){
             <app-filter-card-checkbox-item
-              [label]="category.name"
+              [category]="category"
+              (checked)="onCategoryChecked($event)"
             />
           }
         </div>
@@ -49,16 +49,16 @@
  <div class="category--content">
    <div class="active-filters"></div>
    <div class="products-info"></div>
-
-   @if((products$ |async);as products){
+   @if(products){
      <div class="products">
-       @for(product of (products$ |async)|| [] ;track product.id){
+       @for(product of products || [] ;track product.id){
          <app-product-item
            [product]="product"
          />
        }
 
    </div>
+
      @if(products.length === 0){
        <div class="no-products">
          No products found

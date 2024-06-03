@@ -1,4 +1,6 @@
-import {Component, Input,} from '@angular/core';
+import {Component, EventEmitter, Input, Output,} from '@angular/core';
+
+import {Category} from "../../core/interfaces/category";
 
 
 @Component({
@@ -10,5 +12,20 @@ import {Component, Input,} from '@angular/core';
 })
 export class FilterCardCheckboxItemComponent {
 
-@Input() label: any;
+  @Input() category: Category = {} as Category;
+  @Output() checked: EventEmitter<{
+    category: Category;
+    checked: boolean;
+  }> = new EventEmitter<{
+    category: Category;
+    checked: boolean;
+  }
+  >();
+
+  changed($event: Event) {
+    this.checked.emit({
+      category: this.category,
+      checked: ($event.target as HTMLInputElement).checked
+    })
+  }
 }

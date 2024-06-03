@@ -10,15 +10,16 @@ import {Product} from "../core/interfaces/product";
 export class ProductFacade {
   productService=inject(ProductService)
 
-  getProducts(categoryId: string){
-    return this.productService.getProducts(categoryId)
+  getProducts(params:{categoryId: string[], colorId?: string, size?: string}){
+    return this.productService.getProducts()
       .pipe(
         map((products) => {
           return Object.keys(products).map((key: any) => ({
             ...products[key],
             id: key
           } as Product))
-        })
+        }),
+        map((products) =>products.filter((product) => params.categoryId.includes(product.categoryId)))
       )
 
   }

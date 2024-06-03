@@ -15,6 +15,8 @@ import {ProductItemComponent} from "../../components/product-item/product-item.c
 import {ProductFacade} from "../../facades/product.facade";
 
 import { switchMap} from "rxjs";
+import {Category} from "../../core/interfaces/category";
+import {Product} from "../../core/interfaces/product";
 
 
 
@@ -48,25 +50,51 @@ export class CategoriesComponent implements OnInit{
 
     sizes=SIZES
 
+  selectedCategories:Map<string, Category> = new Map()
 
-  products$ = this.route.params.pipe(
-    switchMap(params => this.productFacade.getProducts(params['id'])),
-  )
+  products:Product[]=[]
+
 
 
 
 
 
   ngOnInit() {
-    // this.route.params.subscribe(params => {
-    //   console.log(params)
-    //   this.productFacade.getProducts(params['id'])
-    //     .subscribe(products => {
-    //       console.log(products)
-    //     })
-    // })
+    this.route.params.subscribe(params => {
+      console.log(params)
+      this.getProducts([params['id']])
+    })
+  }
 
 
+  getProducts(categoryId:string[]){
+    return this.productFacade.getProducts({
+      categoryId,
 
+    })
+      .subscribe(products => {
+        console.log(products)
+        this.products = products
+      })
+
+  }
+
+  onCategoryChecked($event: {
+    category: Category;
+    checked: boolean;
+  }) {
+    if(!$event.checked){
+      this.selectedCategories.delete($event.category.id)
+    }else {
+      this.selectedCategories.set($event.category.id, $event.category)
+    }
+
+    console.log(this.selectedCategories.keys())
+
+
+    this.getProducts([...this.selectedCategories.keys()])
+
+
+    console.log(this.selectedCategories.keys())
   }
 }
