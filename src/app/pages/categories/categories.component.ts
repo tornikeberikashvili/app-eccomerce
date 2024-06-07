@@ -1,5 +1,5 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {BreadcrumbComponent} from "../../components/breadcrumb/breadcrumb.component";
 import {CategoryFacade} from "../../facades/category.facade";
 import {AsyncPipe, JsonPipe} from "@angular/common";
@@ -14,9 +14,11 @@ import {Size, SIZES,} from "../../core/types/size.type";
 import {ProductItemComponent} from "../../components/product-item/product-item.component";
 import {ProductFacade} from "../../facades/product.facade";
 
-import { switchMap} from "rxjs";
+import {Subject, switchMap, takeUntil, tap} from "rxjs";
 import {Category} from "../../core/interfaces/category";
 import {Product} from "../../core/interfaces/product";
+import {Color} from "../../core/interfaces/color";
+import {subscribe} from "node:diagnostics_channel";
 
 
 
@@ -37,9 +39,10 @@ import {Product} from "../../core/interfaces/product";
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
-export class CategoriesComponent implements OnInit{
+export class CategoriesComponent {
 
   route=inject(ActivatedRoute)
+  router=inject(Router)
   categoryFacade=inject(CategoryFacade)
   colorFacade=inject(ColorFacade)
   productFacade=inject(ProductFacade)
@@ -51,33 +54,39 @@ export class CategoriesComponent implements OnInit{
     sizes=SIZES
 
   selectedCategories:Map<string, Category> = new Map()
+  selectedColor?:string
+  selectedSize?:Size
 
-  products:Product[]=[]
+  products$ = this.route.queryParams
+    .pipe(
+      tap((params)=> {
+        this.selectedCategories.clear()
+        const category = params['category']
 
+        if (category) {
+          if (Array.isArray(category)) {
+            category.forEach((id) => {
+              this.selectedCategories.set(id, {} as Category)
+            })
+          } else {
+            this.selectedCategories.set(category, {} as Category)
+          }
+        }
+        this.selectedColor = params['color']
+        this.selectedSize = params['size']
 
+      }),
+      switchMap(params => {
+       return this.productFacade.getProducts({
+          categoryId: params['category'],
+          colorId: params['color'],
+          size: params['size']
+        })
 
-
-
-
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      console.log(params)
-      this.getProducts([params['id']])
-    })
-  }
-
-
-  getProducts(categoryId:string[]){
-    return this.productFacade.getProducts({
-      categoryId,
-
-    })
-      .subscribe(products => {
-        console.log(products)
-        this.products = products
       })
+    )
 
-  }
+
 
   onCategoryChecked($event: {
     category: Category;
@@ -88,13 +97,36 @@ export class CategoriesComponent implements OnInit{
     }else {
       this.selectedCategories.set($event.category.id, $event.category)
     }
-
-    console.log(this.selectedCategories.keys())
-
-
-    this.getProducts([...this.selectedCategories.keys()])
-
-
-    console.log(this.selectedCategories.keys())
+    this.router.navigate([],{
+      queryParams:{
+        category:[...this.selectedCategories.keys()]
+      }
+    })
   }
+
+
+
+  selectColor(color: Color) {
+    this.selectedColor = color.id
+
+    this.router.navigate([],{
+      queryParams:{
+        color: this.selectedColor,
+      },
+      queryParamsHandling: 'merge'
+    })
+
+  }
+
+  selectSize(size:Size){
+  this.selectedSize = size
+
+    this.router.navigate([],{
+      queryParams:{
+        size: this.selectedSize,
+      },
+      queryParamsHandling: 'merge'
+    })
+  }
+
 }

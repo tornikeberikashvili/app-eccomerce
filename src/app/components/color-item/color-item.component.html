@@ -1,9 +1,10 @@
 <div class="color-item"
 [class.active]="active"
+     (click)="selected.emit(color)"
 >
 
   <div class="color-item__name"
-  [style.background-color]="color"
+  [style.background-color]="color.name"
   >
 
   </div>

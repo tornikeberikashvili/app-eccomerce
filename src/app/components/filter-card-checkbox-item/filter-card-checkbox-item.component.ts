@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output,} from '@angular/core';
+import {booleanAttribute, Component, EventEmitter, Input, Output,} from '@angular/core';
 
 import {Category} from "../../core/interfaces/category";
 
@@ -13,6 +13,9 @@ import {Category} from "../../core/interfaces/category";
 export class FilterCardCheckboxItemComponent {
 
   @Input() category: Category = {} as Category;
+  @Input({
+    transform: booleanAttribute
+  }) active: boolean = false;
   @Output() checked: EventEmitter<{
     category: Category;
     checked: boolean;

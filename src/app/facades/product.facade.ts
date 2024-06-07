@@ -11,6 +11,7 @@ export class ProductFacade {
   productService=inject(ProductService)
 
   getProducts(params:{categoryId: string[], colorId?: string, size?: string}){
+    console.log(params)
     return this.productService.getProducts()
       .pipe(
         map((products) => {
@@ -19,7 +20,21 @@ export class ProductFacade {
             id: key
           } as Product))
         }),
-        map((products) =>products.filter((product) => params.categoryId.includes(product.categoryId)))
+        map((products) =>{
+          return products.filter((product)=>{
+            if(params.categoryId.length && !params.categoryId.includes(product.categoryId)){
+              return false
+            }
+            if(params.colorId && params.colorId !== product.colorId){
+              return false
+            }
+            if(params.size && params.size !== product.size){
+              return false
+            }
+            return true
+          })
+
+        }),
       )
 
   }
