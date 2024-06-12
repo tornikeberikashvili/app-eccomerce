@@ -19,6 +19,7 @@ import {Category} from "../../core/interfaces/category";
 import {Product} from "../../core/interfaces/product";
 import {Color} from "../../core/interfaces/color";
 import {subscribe} from "node:diagnostics_channel";
+import {SizeItemComponent} from "../../components/size-item/size-item.component";
 
 
 
@@ -34,7 +35,8 @@ import {subscribe} from "node:diagnostics_channel";
     FilterCardComponent,
     FilterCardCheckboxItemComponent,
     ColorItemComponent,
-    ProductItemComponent
+    ProductItemComponent,
+    SizeItemComponent
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'

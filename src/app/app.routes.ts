@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CategoriesComponent, HomeComponent} from "./pages";
+import {CategoriesComponent, HomeComponent, ProductComponent} from "./pages";
 import {LeyoutComponent} from "./components";
 
 
@@ -15,6 +15,10 @@ export const routes: Routes = [
       {
         path: 'auth',
         loadChildren: () => import('./pages/auth/auth.routes').then(m => m.authRoutes)
+      },
+      {
+      path: 'product/:id',
+        component: ProductComponent
       },
       {
         path: 'category',

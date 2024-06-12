@@ -1,6 +1,6 @@
-<div class="product-item">
+<div [routerLink]="['/product',product?.id]" class="product-item">
   <div class="product-item__image">
-    <img src="assets/images/Image.png">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ecommerce-37a62.appspot.com/o/cover.png?alt=media&token=50bb56e5-d02b-4647-99a0-0cef661629cc">
   </div>
 
   <div class="product-item__name">
@@ -8,7 +8,7 @@
   </div>
 
   <div class="product-item__info">
-    <div *ngIf="product?.inStock" class="product-item__info--stock">{{product?.inStock | stock}}</div>
+    <app-stock-check *ngIf="product?.inStock" [inStock]="product?.inStock"></app-stock-check>
    <div class="product-item__info--price">{{product?.price | currency:'USD':'$' }}</div>
   </div>
 </div>

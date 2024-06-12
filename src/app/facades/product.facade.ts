@@ -42,10 +42,12 @@ export class ProductFacade {
   getProduct(id: string){
     return this.productService.getProduct(id)
       .pipe(
-        map((product) => ({
-          ...product,
-           id
-        })as Product)
-      )
+        map((product) =>{
+          return {
+            ...product,
+            id,
+          }as Product
+        }
+      ))
   }
 }

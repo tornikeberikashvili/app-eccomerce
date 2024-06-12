@@ -2,6 +2,8 @@ import {Component, Input} from '@angular/core';
 import {Product} from "../../core/interfaces/product";
 import {CurrencyPipe, NgIf} from "@angular/common";
 import {StockPipe} from "../../core/pipes/stock.pipe";
+import {RouterLink} from "@angular/router";
+import {StockCheckComponent} from "../stock-check/stock-check.component";
 
 @Component({
   selector: 'app-product-item',
@@ -9,7 +11,9 @@ import {StockPipe} from "../../core/pipes/stock.pipe";
   imports: [
     CurrencyPipe,
     StockPipe,
-    NgIf
+    NgIf,
+    RouterLink,
+    StockCheckComponent
   ],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss'

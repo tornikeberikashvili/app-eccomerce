@@ -1,1 +1,46 @@
-<p>product works!</p>
+@if (product$ | async; as product) {
+
+  <app-breadcrumb [currentPage]="product.name"/>
+
+
+  <div class="container product">
+    <div class="product--images">
+      <img [src]="product.cover" alt="">
+    </div>
+    <div class="product--info">
+      <h1>Raw Black T-Shirt Lineup</h1>
+
+      <div class="product--info__stock-reviews">
+        <app-review *ngIf="product.reviews" [review]="product?.reviews"/>
+        <app-stock-check *ngIf="product?.inStock" [inStock]="product?.inStock"/>
+      </div>
+      <div class="product--info__price">
+        {{ product?.price | currency:'USD':'$' }}
+      </div>
+
+      <div class="product--info__colors">
+        <div>Available Color</div>
+        <app-color-item
+          [color]="product.color"
+        />
+      </div>
+
+      <div class="product--info__sizes">
+        <div>Select Size</div>
+        <app-size-item
+          [size]="product.size">
+        </app-size-item>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!--{{product | json}}-->
+}
+
+
+
+
+
+
