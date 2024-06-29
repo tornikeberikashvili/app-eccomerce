@@ -41,6 +41,16 @@ header{
 
     &__item{
       cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      text-decoration: none;
+      color: var(--neutral-black-b500);
+      font-family: var(--font-family);
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 175%;
+
 
     }
   }

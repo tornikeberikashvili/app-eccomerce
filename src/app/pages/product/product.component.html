@@ -30,13 +30,54 @@
         <app-size-item
           [size]="product.size">
         </app-size-item>
+      </div>
+
+      <div class="product--info__quantity">
+        <div>QUANTITY</div>
+        <app-quantity-input [(quantity)]="quantity" />
 
       </div>
 
+
+  <div class="product--info__add-to-cart">
+    <button
+      class="add-to-cart-btn"
+      app-button
+      theme="primary"
+      (click)="addToCart(product)"
+    >
+      Add to Cart
+    </button>
+
+    <button
+      app-button
+      theme="outline-icon"
+      (click)="addToWishlist()">
+      <img src="assets/icons/Heart.svg"/>
+    </button>
+  </div>
     </div>
   </div>
 
-  <!--{{product | json}}-->
+  <div class="container product- description">
+    <h2>Detail</h2>
+    <div class="content" [innerHTML]="sanitizer.bypassSecurityTrustHtml(product.description)"></div>
+<!--    <div [innerHTML]="insertScript"></div>-->
+  </div>
+
+
+<div class="container product--related">
+  <h2>Related Products</h2>
+<div class="products">
+  @for(relatedProducts of relatedProducts$ | async;track relatedProducts.id){
+  <app-product-item
+    [product]="relatedProducts"
+  >
+  </app-product-item>
+  }
+</div>
+</div>
+
 }
 
 

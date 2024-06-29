@@ -50,4 +50,22 @@ export class ProductFacade {
         }
       ))
   }
-}
+
+  getRelatedProducts(categoryId: string,productId: string) {
+    return this.productService.getRelatedProducts(categoryId)
+      .pipe(
+        map((products) => {
+          return Object.keys(products).map((key: any) => ({
+            ...products[key],
+            id: key
+          } as Product))
+        }),
+          map((products) =>{
+            return products.filter((product)=>product.id !== productId).slice(0,4)
+
+            })
+            )
+          }
+
+  }
+

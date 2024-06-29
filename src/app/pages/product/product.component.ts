@@ -14,6 +14,11 @@ import {ColorItemComponent} from "../../components/color-item/color-item.compone
 import {Color} from "../../core/interfaces/color";
 import {SizeItemComponent} from "../../components/size-item/size-item.component";
 import {Product} from "../../core/interfaces/product";
+import {QuantityInputComponent} from "../../components/quantity-input/quantity-input.component";
+import {ButtonComponent} from "../../ui/button/button.component";
+import {DomSanitizer} from "@angular/platform-browser";
+import {ProductItemComponent} from "../../components/product-item/product-item.component";
+import {CartFacade} from "../../facades/cart.facade";
 
 @Component({
   selector: 'app-product',
@@ -27,7 +32,10 @@ import {Product} from "../../core/interfaces/product";
     StockCheckComponent,
     CurrencyPipe,
     ColorItemComponent,
-    SizeItemComponent
+    SizeItemComponent,
+    QuantityInputComponent,
+    ButtonComponent,
+    ProductItemComponent
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
@@ -39,7 +47,20 @@ export class ProductComponent {
   productFacade = inject(ProductFacade)
   categoryFacade = inject(CategoryFacade)
   colorFacade = inject(ColorFacade)
+  cartFacade = inject(CartFacade)
+  sanitizer = inject(DomSanitizer)
+
+get insertScript() {
+    return this.sanitizer.bypassSecurityTrustHtml(`
+      <script>
+       console.log('hello world')
+      </script>
+    `)
+}
+
+
   selectedColor?: string
+  quantity: number = 1
 
   product$:Observable<Product> = this.route.params.pipe(
     switchMap((params: any) => this.productFacade.getProduct(params['id'])
@@ -71,9 +92,24 @@ export class ProductComponent {
     )
   )
 
+  relatedProducts$: Observable<Product[]> = this.product$.pipe(
+    switchMap((product) => this.productFacade.getRelatedProducts(product.categoryId, product.id))
+    )
+
 
   selectColor($event: Color) {
 
+
+  }
+
+  addToCart(product: Product) {
+
+
+
+  this.cartFacade.addToCart(product, this.quantity)
+  }
+
+  addToWishlist() {
 
   }
 }
